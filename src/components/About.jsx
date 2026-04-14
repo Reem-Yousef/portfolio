@@ -2,6 +2,7 @@ import { useInView } from "../hooks/useInView";
 import { OrbitingCircles } from "./ui/OrbitingCircles";
 import { ABOUT_ORBIT } from "../data/data";
 import { useState } from "react";
+import myPhoto from "/your-photo.jpeg";
 
 function OrbitIcon({ item }) {
   return (
@@ -112,8 +113,13 @@ export function About() {
             boxShadow: "0 0 40px rgba(34,211,238,0.12)",
             zIndex: 2, position: "relative",
           }}>
-            <img src="/your-photo.jpeg" alt="Reem"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            {/* <img src="/your-photo.jpeg" alt="Reem"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }} /> */}
+            <img
+              src={myPhoto}
+              alt="Reem"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
 
           {/* Inner orbit — Frontend, Backend, UI/UX */}
