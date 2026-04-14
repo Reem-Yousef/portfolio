@@ -2,7 +2,7 @@ import { useInView } from "../hooks/useInView";
 import { OrbitingCircles } from "./ui/OrbitingCircles";
 import { ABOUT_ORBIT } from "../data/data";
 import { useState } from "react";
-import myPhoto from "/your-photo.jpeg";
+import myPhoto from "../../public/your-photo.jpeg";
 
 function OrbitIcon({ item }) {
   return (
