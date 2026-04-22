@@ -39,7 +39,7 @@ const handleSubmit = async () => {
 
   const inputStyle = {
     background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255, 255, 255, 0.67)",
+    border: "1px solid rgb(255, 255, 255)",
     borderRadius: 12,
     padding: "14px 18px",
     fontFamily: "'DM Sans', sans-serif",
@@ -94,11 +94,11 @@ const handleSubmit = async () => {
             fontSize: "clamp(32px, 5vw, 52px)", color: "#fff",
             letterSpacing: -1.5, margin: "0 0 16px",
           }}>
-            Get in <span style={{ color: "rgba(255,255,255,0.25)" }}>Touch</span>
+            Get in <span style={{ color: "rgba(255, 255, 255, 0.33)" }}>Touch</span>
           </h2>
           <p style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: 16,
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(255, 255, 255, 0.53)",
           }}>
             Have a project in mind? I respond within 24 hours.
           </p>

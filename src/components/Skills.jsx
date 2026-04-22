@@ -60,7 +60,7 @@ function SkillCard({ cat, data, delay, visible }) {
     >
       {/* Inner card */}
       <div style={{
-        background: "#09090b",
+        background: "#09090bf7",
         borderRadius: 19,
         padding: 28,
         position: "relative",
@@ -153,7 +153,7 @@ export function Skills() {
             fontSize: "clamp(32px, 5vw, 52px)", color: "#fff",
             letterSpacing: -1.5, margin: "0 0 16px",
           }}>
-            Skills <span style={{ color: "rgba(255,255,255,0.25)" }}>I have</span>
+            Skills <span style={{ color: "rgba(255,255,255,0.33)" }}>I have</span>
           </h2>
           <p style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: 16,

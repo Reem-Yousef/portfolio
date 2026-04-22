@@ -146,7 +146,7 @@ export function About() {
           lineHeight: 1.15, letterSpacing: -1.5, margin: "0 0 24px",
         }}>
           Who I am<br />
-          <span style={{ color: "rgba(255,255,255,0.28)" }}>& What I offer</span>
+          <span style={{ color: "rgba(255,255,255,0.33)" }}>& What I offer</span>
         </h2>
 
         <p style={{

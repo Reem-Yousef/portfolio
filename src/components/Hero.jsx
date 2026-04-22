@@ -123,6 +123,7 @@ export function Hero() {
         <Spline
           // scene="https://prod.spline.design/b6CdfOq9ZnVDjlVx/scene.splinecode"
           scene="https://prod.spline.design/iQsnxnlUYueAAwUZ/scene.splinecode"
+          // scene="https://prod.spline.design/iQsnxnlUYueAAwUZ/scene.splinecode"
           style={{ width: "100%", height: "100%" ,  transform: "scale(1.4) translateY(10%)",
       transformOrigin: "center center"}}
         />

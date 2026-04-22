@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import "./index.css";
-
 import { Particles }      from "./components/ui/Particles";
-import { BottomNav }      from "./components/BottomNav";
+import { TopNav }         from "./components/BottomNav";
 import { Hero }           from "./components/Hero";
 import { About }          from "./components/About";
 import { Skills }         from "./components/Skills";
@@ -14,14 +13,17 @@ const SECTIONS = ["hero", "about", "skills", "projects", "certifications", "cont
 
 export default function App() {
   const [active, setActive] = useState("hero");
+  const [dark, setDark] = useState(true);
 
-  // Track active section for BottomNav highlight
+  useEffect(() => {
+    document.body.classList.toggle("light", !dark);
+    document.body.style.background = dark ? "#000000" : "#858598";
+  }, [dark]);
+
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
-        });
+        entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
       },
       { threshold: 0.35 }
     );
@@ -34,21 +36,19 @@ export default function App() {
 
   return (
     <>
-      {/* Background particles — canvas مبني يدوياً بدون @tsparticles */}
-     <Particles count={450} minSize={0.3} maxSize={1.2} minOpacity={0.03} maxOpacity={0.6} />
-
-      {/* Main content */}
+      <Particles count={450} minSize={0.3} maxSize={1.2} minOpacity={0.03} maxOpacity={0.6} />
+      <TopNav active={active} dark={dark} setDark={setDark} />
       <main style={{ position: "relative", zIndex: 1 }}>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Certifications />
-        <Contact />
+        <Hero dark={dark} />
+        <About dark={dark} />
+        <Skills dark={dark} />
+        <Projects dark={dark} />
+        <Certifications dark={dark} />
+        <Contact dark={dark} />
       </main>
-
-      {/* Fixed bottom dock */}
-      <BottomNav active={active} />
     </>
   );
 }
+
+
+// https://prod.spline.design/iQsnxnlUYueAAwUZ/scene.splinecode

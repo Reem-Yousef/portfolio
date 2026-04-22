@@ -24,7 +24,7 @@ body {
 *::-webkit-scrollbar-thumb { background: #22d3ee33; border-radius: 3px; }
 
 /* ── Placeholder & inputs ── */
-::placeholder { color: rgba(255, 255, 255, 0.585); }
+::placeholder { color: rgba(255, 255, 255, 0.86); }
 input, textarea { color-scheme: dark; }
 
 /* ── Keyframes ── */
@@ -177,4 +177,9 @@ input, textarea { color-scheme: dark; }
 
 .hero-right > div > div {
   overflow: visible !important;
+}
+
+body.light {
+  background: #f0f0f5;
+  color: #000;
 }
