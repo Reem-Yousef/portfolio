@@ -1,3 +1,4 @@
+import spaceExamImg from "/space-exam.png";
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
 export const SKILLS_DATA = {
@@ -47,7 +48,7 @@ export const PROJECTS = [
     title: "Space Examination System",
     desc: "Interactive online exam platform with a space theme — features a countdown timer, question flagging, dynamic result pages, and localStorage-based routing. Built entirely with vanilla HTML, CSS, and ES6.",
     tags: ["HTML", "CSS", "ES6", "LocalStorage"],
-    img: "/space-exam.png",
+    img: spaceExamImg,
     github: "https://github.com/Reem-Yousef/Space-Exam",
     demo: "https://reem-yousef.github.io/Space-Exam/",
     type: "dev",
