@@ -174,7 +174,7 @@ export const CERTS = [
     color: "#a78bfa",
     img: "https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=420&h=300&fit=crop&q=80",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></svg>`,
-    link: "YOUR_MEARN_CERT_LINK_HERE",
+    link: "https://drive.google.com/file/d/19MVqpoQPU1WlaXvNp6TsFqnPX6RPZ7jv/view?usp=sharing",
   },
 ];
 
