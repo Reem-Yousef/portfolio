@@ -1,6 +1,6 @@
 import { useInView } from "../hooks/useInView";
 import { OrbitingCircles } from "./ui/OrbitingCircles";
-import { ABOUT_ORBIT } from "../data/data";
+import { ABOUT_ORBIT, SOCIALS } from "../data/data";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import myPhoto from "../../public/your-photo.jpeg";
@@ -174,9 +174,59 @@ export function About({ dark }) {
             { label: "Express", color: "#fb923c" },
             { label: "MongoDB", color: "#4ade80" },
             { label: "UI/UX",   color: "#e879f9" },
-          ].map(({ label, color }) => (
-            <TagBadge key={label} label={label} color={color} dark={dark} />
-          ))}
+          ].map(({ label, color }) => {
+            const getThemeColor = (c) => {
+              if (dark || c === "#ffffff" || c === "#000000") return c;
+              const map = {
+                "#22d3ee": "#0891b2", // Cyan
+                "#e879f9": "#c026d3", // Fuchsia
+                "#4ade80": "#16a34a", // Green
+                "#fb923c": "#ea580c", // Orange
+                "#f472b6": "#db2777", // Pink
+                "#a78bfa": "#7c3aed", // Violet
+              };
+              return map[c] || c;
+            };
+            return <TagBadge key={label} label={label} color={getThemeColor(color)} dark={dark} />;
+          })}
+        </div>
+
+        <div style={{
+          display: "flex", gap: 16, marginTop: 32,
+          justifyContent: isAr ? "flex-end" : "flex-start",
+        }}>
+          <button
+            onClick={() => window.open(SOCIALS.cv, "_blank")}
+            style={{
+              padding: "12px 28px",
+              borderRadius: 14,
+              background: dark ? "#fff" : "#111",
+              color: dark ? "#111" : "#fff",
+              border: "none",
+              fontFamily: font,
+              fontWeight: 700,
+              fontSize: 15,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              boxShadow: dark ? "0 8px 24px rgba(255,255,255,0.1)" : "0 8px 24px rgba(0,0,0,0.15)",
+              transition: "all 0.3s ease",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = "translateY(-3px)";
+              e.currentTarget.style.boxShadow = dark ? "0 12px 30px rgba(255,255,255,0.15)" : "0 12px 30px rgba(0,0,0,0.2)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = dark ? "0 8px 24px rgba(255,255,255,0.1)" : "0 8px 24px rgba(0,0,0,0.15)";
+            }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {t("about.downloadCV")}
+          </button>
         </div>
       </div>
     </section>

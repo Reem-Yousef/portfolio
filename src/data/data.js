@@ -207,4 +207,5 @@ export const SOCIALS = {
   github:   "https://github.com/Reem-Yousef",
   linkedin: "https://www.linkedin.com/in/reem-yousef-mohamed/",
   behance:  "https://www.behance.net/ReemyousefUIUX",
+  cv:       "https://drive.google.com/file/d/1rt0ynvROHKoMgL70MmzAT8ahahMVClqo/view?usp=sharing",
 };

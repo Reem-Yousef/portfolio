@@ -42,8 +42,22 @@ function ProjectCard({ project: p, index, visible, dark }) {
     ? hov ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)"
     : hov ? "rgba(255,255,255,0.4)"  : "rgba(255,255,255,0.25)";
   const cardBdr  = dark
-    ? hov ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)"
+    ? hov ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.12)"
     : hov ? "rgba(255,255,255,0.6)"  : "rgba(255,255,255,0.4)";
+  const getThemeColor = (c) => {
+    if (dark) return c;
+    const map = {
+      "#22d3ee": "#0891b2", // Cyan
+      "#e879f9": "#c026d3", // Fuchsia
+      "#4ade80": "#16a34a", // Green
+      "#fb923c": "#ea580c", // Orange
+      "#f472b6": "#db2777", // Pink
+      "#a78bfa": "#7c3aed", // Violet
+      "#fbbf24": "#d97706", // Amber/Yellow
+    };
+    return map[c] || c;
+  };
+
   const btnBg    = dark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.5)";
   const btnBdr   = dark ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.7)";
   const btnColor = dark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.85)";
@@ -199,10 +213,10 @@ function ProjectCard({ project: p, index, visible, dark }) {
                 border:       "1px solid rgba(34,211,238,0.22)",
                 borderRadius: 100, padding: "7px 15px",
                 fontFamily:   font, fontSize: 13,
-                color:        "#22d3ee", textDecoration: "none",
+                color:        getThemeColor("#22d3ee"), textDecoration: "none",
                 transition:   "background 0.2s",
               }}
-              onMouseEnter={e => e.currentTarget.style.background = "rgba(34,211,238,0.13)"}
+              onMouseEnter={e => e.currentTarget.style.background = dark ? "rgba(34,211,238,0.13)" : "rgba(34,211,238,0.2)"}
               onMouseLeave={e => e.currentTarget.style.background = "rgba(34,211,238,0.06)"}
             >
               <IcoExtLink /> {labelViewDemo}
@@ -218,10 +232,10 @@ function ProjectCard({ project: p, index, visible, dark }) {
                 border:       "1px solid rgba(232,121,249,0.22)",
                 borderRadius: 100, padding: "7px 15px",
                 fontFamily:   font, fontSize: 13,
-                color:        "#e879f9", textDecoration: "none",
+                color:        getThemeColor("#e879f9"), textDecoration: "none",
                 transition:   "background 0.2s",
               }}
-              onMouseEnter={e => e.currentTarget.style.background = "rgba(232,121,249,0.13)"}
+              onMouseEnter={e => e.currentTarget.style.background = dark ? "rgba(232,121,249,0.13)" : "rgba(232,121,249,0.2)"}
               onMouseLeave={e => e.currentTarget.style.background = "rgba(232,121,249,0.06)"}
             >
               <IcoBehance /> Behance
@@ -236,7 +250,7 @@ function ProjectCard({ project: p, index, visible, dark }) {
               border:       "1px solid rgba(251,191,36,0.22)",
               borderRadius: 100, padding: "7px 15px",
               fontFamily:   font, fontSize: 13,
-              color:        "rgba(251,191,36,0.8)",
+              color:        getThemeColor("#fbbf24"),
             }}>
               ⏳ {labelComingSoon}
             </span>

@@ -24,6 +24,7 @@ const resources = {
         titleAccent: "& What I offer",
         p1: "Reem Yousef — a full-stack developer & UI/UX designer with a strong blend of creativity and technical expertise. I bring a unique perspective to building digital products. From designing intuitive user experiences to developing scalable web applications, I focus on creating solutions that are both functional and engaging. Passionate about continuous learning, problem-solving, and turning ideas into impactful, user-centered products.",
         p2: "Creative developer at heart, builder by habit — I thrive at the intersection of design, performance, and developer experience.",
+        downloadCV: "Download CV",
       },
 
       // ── Skills ──
@@ -130,6 +131,7 @@ const resources = {
         titleAccent: "وماذا أقدم",
         p1: "ريم يوسف — مطورة full-stack ومصممة UI/UX تجمع بين الإبداع والخبرة التقنية في آنٍ واحد. أحمل رؤية فريدة لبناء المنتجات الرقمية؛ من تصميم تجارب مستخدم سلسة وبديهية، إلى تطوير تطبيقات ويب قابلة للتوسع والنمو. أؤمن بأن الحل الجيد هو الذي يكون وظيفياً وجذاباً في الوقت ذاته. أنا شغوفة بالتعلم المستمر، وحل المشكلات، وتحويل الأفكار إلى منتجات مؤثرة تضع المستخدم في قلب كل قرار.",
         p2: "مطورة بالفطرة وبانية بالعادة — أزدهر عند نقطة التقاطع بين التصميم والأداء وتجربة المطور. أؤمن أن الكود الجميل والتصميم الجيد وجهان لعملة واحدة.",
+        downloadCV: "تحميل السيرة الذاتية",
       },
 
       // ── Skills ──

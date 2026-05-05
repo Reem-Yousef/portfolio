@@ -53,6 +53,20 @@ function SkillCard({ cat, data, delay, visible, dark }) {
     setGradPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
+  const getThemeColor = (c) => {
+    if (dark) return c;
+    const map = {
+      "#22d3ee": "#0891b2", // Cyan
+      "#e879f9": "#c026d3", // Fuchsia
+      "#4ade80": "#16a34a", // Green
+      "#fb923c": "#ea580c", // Orange
+      "#f472b6": "#db2777", // Pink
+      "#a78bfa": "#7c3aed", // Violet
+    };
+    return map[c] || c;
+  };
+  const themeColor = getThemeColor(data.color);
+
   // اسم الكاتيجوري المترجم
   const catLabel = CAT_KEYS[cat] ? t(CAT_KEYS[cat]) : cat;
 
@@ -99,17 +113,17 @@ function SkillCard({ cat, data, delay, visible, dark }) {
         }}>
           <div style={{
             width: 36, height: 36, borderRadius: 10,
-            background: `${data.color}18`,
-            border: `1px solid ${data.color}30`,
+            background: `${themeColor}18`,
+            border: `1px solid ${themeColor}30`,
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 16,
           }}>
-            <span dangerouslySetInnerHTML={{ __html: data.icon }} />
+            <span dangerouslySetInnerHTML={{ __html: data.icon.replaceAll(data.color, themeColor) }} />
           </div>
           <span style={{
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 700, fontSize: 12,
-            color: data.color, letterSpacing: 2,
+            color: themeColor, letterSpacing: 2,
             textTransform: "uppercase",
           }}>{catLabel}</span>
         </div>
@@ -129,7 +143,7 @@ function SkillCard({ cat, data, delay, visible, dark }) {
             }}
               onMouseEnter={e => {
                 e.currentTarget.style.background = dark ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.6)";
-                e.currentTarget.style.borderColor = dark ? `${data.color}30` : data.color;
+                e.currentTarget.style.borderColor = dark ? `${themeColor}30` : themeColor;
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.background = dark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.4)";

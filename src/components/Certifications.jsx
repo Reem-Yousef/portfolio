@@ -5,7 +5,8 @@ import { CERTS } from "../data/data";
 
 const durationColor = (d) => d.includes("1") ? "#facc15" : "#4ade80";
 
-function ImgPlaceholder({ cert, dark, isAr }) {
+function ImgPlaceholder({ cert, dark, isAr, themeColor }) {
+  const finalColor = themeColor || cert.color;
   return (
     <div style={{
       width: "100%", height: "100%",
@@ -13,17 +14,17 @@ function ImgPlaceholder({ cert, dark, isAr }) {
       alignItems: "center", justifyContent: "center",
       gap: 12,
       background: dark
-        ? `linear-gradient(135deg, ${cert.color}12, ${cert.color}06)`
-        : `linear-gradient(135deg, ${cert.color}18, ${cert.color}08)`,
+        ? `linear-gradient(135deg, ${finalColor}12, ${finalColor}06)`
+        : `linear-gradient(135deg, ${finalColor}18, ${finalColor}08)`,
     }}>
       <span
-        style={{ width: 48, height: 48, color: cert.color, opacity: 0.7, display: "flex" }}
-        dangerouslySetInnerHTML={{ __html: cert.icon.replace(/strokeWidth="1\.8"/, 'strokeWidth="1.4"') }}
+        style={{ width: 48, height: 48, color: finalColor, opacity: 0.7, display: "flex" }}
+        dangerouslySetInnerHTML={{ __html: cert.icon.replace(/strokeWidth="1\.8"/, 'strokeWidth="1.4"').replaceAll(cert.color, finalColor) }}
       />
       <span style={{
         fontFamily: isAr ? "'Cairo', sans-serif" : "'DM Sans', sans-serif",
         fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
-        color: cert.color, opacity: 0.55, textTransform: "uppercase",
+        color: finalColor, opacity: 0.55, textTransform: "uppercase",
       }}>
         {isAr ? "شهادة" : "Certificate"}
       </span>
@@ -43,13 +44,27 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
   const certTitle    = cert.id ? t(`certifications.items.${cert.id}.title`,    { defaultValue: cert.title    }) : cert.title;
   const certIssuer   = cert.id ? t(`certifications.items.${cert.id}.issuer`,   { defaultValue: cert.issuer   }) : cert.issuer;
   const certDuration = cert.id ? t(`certifications.items.${cert.id}.duration`, { defaultValue: cert.duration }) : cert.duration;
+  
+  const getThemeColor = (c) => {
+    if (dark) return c;
+    const map = {
+      "#22d3ee": "#0891b2", // Cyan
+      "#e879f9": "#c026d3", // Fuchsia
+      "#4ade80": "#16a34a", // Green
+      "#fb923c": "#ea580c", // Orange
+      "#f472b6": "#db2777", // Pink
+      "#a78bfa": "#7c3aed", // Violet
+    };
+    return map[c] || c;
+  };
+  const themeColor = getThemeColor(cert.color);
 
   const cardBg  = dark
     ? hov ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.025)"
     : hov ? "rgba(0,0,0,0.05)"       : "rgba(0,0,0,0.025)";
   const cardBdr = dark
-    ? hov ? `1px solid ${cert.color}55` : "1px solid rgba(255,255,255,0.07)"
-    : hov ? `1px solid ${cert.color}66` : "1px solid rgba(0,0,0,0.08)";
+    ? hov ? `1px solid ${themeColor}55` : "1px solid rgba(255,255,255,0.07)"
+    : hov ? `1px solid ${themeColor}66` : "1px solid rgba(0,0,0,0.08)";
   const titleColor = dark ? "#fff"                   : "#111";
   const subColor   = dark ? "rgba(255,255,255,0.42)" : "rgba(0,0,0,0.44)";
   const divColor   = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
@@ -77,7 +92,7 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         background: hov
-          ? `radial-gradient(ellipse at ${isAr ? "right" : "left"}, ${cert.color}0e 0%, transparent 60%)`
+          ? `radial-gradient(ellipse at ${isAr ? "right" : "left"}, ${themeColor}0e 0%, transparent 60%)`
           : "none",
         transition: "background 0.35s ease", zIndex: 0,
       }} />
@@ -101,7 +116,7 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
           top: 0,
           [isMobile ? "right" : "bottom"]: 0,
           [isMobile ? "height" : "width"]: 3,
-          background: cert.color, zIndex: 2,
+          background: themeColor, zIndex: 2,
         }} />
 
         {cert.img ? (
@@ -118,7 +133,7 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
             />
             <div style={{
               position: "absolute", inset: 0, zIndex: 1,
-              background: `linear-gradient(160deg, ${cert.color}55 0%, ${cert.color}18 50%, transparent 100%)`,
+              background: `linear-gradient(160deg, ${themeColor}55 0%, ${themeColor}18 50%, transparent 100%)`,
               pointerEvents: "none",
             }} />
             <div style={{
@@ -132,7 +147,7 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
             }} />
           </>
         ) : (
-          <ImgPlaceholder cert={cert} dark={dark} isAr={isAr} />
+          <ImgPlaceholder cert={cert} dark={dark} isAr={isAr} themeColor={themeColor} />
         )}
       </div>
 
@@ -149,10 +164,10 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
           {/* Icon badge */}
           <div style={{
             width: 40, height: 40, borderRadius: 11, flexShrink: 0,
-            background: dark ? `${cert.color}18` : `${cert.color}35`,
-            border: `1px solid ${cert.color}70`,
+            background: dark ? `${themeColor}18` : `${themeColor}35`,
+            border: `1px solid ${themeColor}70`,
             display: "flex", alignItems: "center", justifyContent: "center",
-            color: cert.color,
+            color: themeColor,
           }}>
             <span
               style={{ width: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center" }}
@@ -204,16 +219,16 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
               display: "inline-flex", alignItems: "center", gap: 8,
               fontFamily: font,
               fontSize: 13, fontWeight: 600,
-              color: hasLink ? cert.color : subColor,
+              color: hasLink ? themeColor : subColor,
               textDecoration: "none",
-              background: hasLink ? (dark ? `${cert.color}12` : `${cert.color}25`) : "transparent",
-              border: `1px solid ${hasLink ? cert.color + (dark ? "44" : "99") : (dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)")}`,
+              background: hasLink ? (dark ? `${themeColor}12` : `${themeColor}25`) : "transparent",
+              border: `1px solid ${hasLink ? themeColor + (dark ? "44" : "99") : (dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)")}`,
               borderRadius: 100, padding: "7px 16px",
               cursor: hasLink ? "pointer" : "default",
               transition: "background 0.2s ease",
             }}
-            onMouseEnter={e => { if (hasLink) e.currentTarget.style.background = `${cert.color}22`; }}
-            onMouseLeave={e => { if (hasLink) e.currentTarget.style.background = dark ? `${cert.color}12` : `${cert.color}25`; }}
+            onMouseEnter={e => { if (hasLink) e.currentTarget.style.background = `${themeColor}22`; }}
+            onMouseLeave={e => { if (hasLink) e.currentTarget.style.background = dark ? `${themeColor}12` : `${themeColor}25`; }}
           >
             {hasLink ? (
               <>

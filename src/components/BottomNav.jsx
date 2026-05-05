@@ -17,6 +17,16 @@ const IcoSun     = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentCol
 const IcoMoon    = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
 const IcoMenu    = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>;
 const IcoX       = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+const IcoResume  = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+    <circle cx="10" cy="12" r="2" />
+    <path d="M7 16c0-1 1-2 3-2s3 1 3 2" />
+    <path d="M14 12h2" />
+    <path d="M14 15h2" />
+  </svg>
+);
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -32,6 +42,7 @@ const SOCIAL_ITEMS = [
   { href: SOCIALS.github,   Icon: IcoGithub,   label: "GitHub" },
   { href: SOCIALS.linkedin, Icon: IcoLinkedin, label: "LinkedIn" },
   { href: SOCIALS.behance,  Icon: IcoBehance,  label: "Behance" },
+  { href: SOCIALS.cv,       Icon: IcoResume,   label: "CV" },
 ];
 
 // ─── DockBtn ──────────────────────────────────────────────────────────────────
