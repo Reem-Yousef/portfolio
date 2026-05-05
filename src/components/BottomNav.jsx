@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { SOCIALS } from "../data/data";
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 const IcoHome     = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
@@ -15,6 +15,8 @@ const IcoLinkedin = () => <svg viewBox="0 0 24 24" fill="currentColor"><path d="
 const IcoBehance  = () => <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.69.752-.64.15-1.31.226-2.01.226H0V4.51h6.938v-.007zM16.94 16.665c.44.428 1.073.643 1.894.643.59 0 1.1-.148 1.53-.447.428-.29.7-.604.814-.94h2.96c-.474 1.467-1.2 2.52-2.183 3.15-.977.625-2.16.937-3.55.937-1.37 0-2.58-.266-3.556-.8-.975-.534-1.737-1.285-2.26-2.26-.52-.97-.78-2.085-.78-3.343 0-1.22.27-2.315.8-3.275.534-.96 1.28-1.71 2.24-2.246.95-.534 2.05-.8 3.28-.8 1.34 0 2.52.285 3.47.854.94.57 1.64 1.35 2.07 2.34.44.987.63 2.107.56 3.36H15.43c0 .84.225 1.48.665 1.906l.845.871zM14.75 10.09c-.35.38-.57.924-.64 1.63h5.47c-.07-.724-.29-1.27-.64-1.64-.35-.365-.835-.55-1.45-.55-.62 0-1.1.19-1.45.56h-.29zM9.12 12.854c.32-.23.495-.6.495-1.1 0-.5-.175-.87-.51-1.1-.34-.224-.78-.34-1.31-.34H3.04v2.92h4.8c.55 0 .97-.114 1.28-.38zm.24 4.514c.36-.27.54-.685.54-1.24 0-.57-.195-1.005-.57-1.29-.38-.278-.88-.42-1.48-.42H3.04v3.4h4.78c.64 0 1.13-.15 1.49-.45h.05z"/></svg>;
 const IcoSun     = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>;
 const IcoMoon    = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IcoMenu    = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>;
+const IcoX       = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
@@ -182,6 +184,34 @@ function Sep({ dark }) {
   );
 }
 
+// ─── MobileIconBtn ─────────────────────────────────────────────────────────────
+function MobileIconBtn({ Icon, label, onClick, active, dark }) {
+  const fg = dark ? "#ffffff" : "#111111";
+  const bg = active ? (dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)") : "transparent";
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+        background: "transparent", border: "none", color: fg, padding: "10px",
+        width: "30%", cursor: "pointer", outline: "none",
+      }}
+    >
+      <div style={{
+        width: 56, height: 56, borderRadius: "50%", background: bg,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        border: `1px solid ${active ? (dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)") : (dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)")}`,
+        color: fg, transition: "all 0.2s"
+      }}>
+        <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}><Icon /></div>
+      </div>
+      <span style={{ fontSize: 13, fontWeight: 500, fontFamily: "'DM Sans', sans-serif", textAlign: "center" }}>
+        {label}
+      </span>
+    </button>
+  );
+}
+
 // ─── TopNav ───────────────────────────────────────────────────────────────────
 export function TopNav({ active, dark, setDark, isAr, toggleLang }) {
   const { t } = useTranslation();
@@ -189,14 +219,26 @@ export function TopNav({ active, dark, setDark, isAr, toggleLang }) {
   const [anyHov,   setAnyHov]   = useState(false);
   const mouseX = useMotionValue(Infinity);
 
+  const [isMobile, setIsMobile] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const scrollTo = (id) =>
+  const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (isMobile) setIsOpen(false);
+  };
 
   const glass = {
     background: dark
@@ -211,6 +253,107 @@ export function TopNav({ active, dark, setDark, isAr, toggleLang }) {
       : "0 6px 28px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,0.65)",
     transition: "background 0.15s ease, box-shadow 0.15s ease, padding 0.1s ease-out, gap 0.1s ease-out",
   };
+
+  if (isMobile) {
+    return (
+      <>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            position: "fixed", top: 20, right: 20, zIndex: 1001,
+            width: 50, height: 50, borderRadius: "50%",
+            background: dark ? "rgba(10, 10, 16, 0.7)" : "rgba(255, 255, 255, 0.7)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: `1px solid ${dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
+            color: dark ? "#fff" : "#000",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            cursor: "pointer", outline: "none",
+          }}
+        >
+          <div style={{ width: 24, height: 24, display: "flex" }}>
+            {isOpen ? <IcoX /> : <IcoMenu />}
+          </div>
+        </button>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+                zIndex: 1000,
+                background: dark ? "rgba(10, 10, 16, 0.95)" : "rgba(248, 248, 253, 0.95)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center", gap: 30,
+              }}
+            >
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "15px 5px", width: "100%", maxWidth: 360 }}>
+                {NAV_ITEMS.map(({ id, Icon, labelKey }) => (
+                  <MobileIconBtn
+                    key={id} Icon={Icon}
+                    label={t(labelKey)}
+                    onClick={() => scrollTo(id)}
+                    active={active === id}
+                    dark={dark}
+                  />
+                ))}
+              </div>
+
+              <div style={{ width: "60%", height: 1, background: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
+
+              <div style={{ display: "flex", gap: 20 }}>
+                {SOCIAL_ITEMS.map(({ href, Icon }) => (
+                  <button
+                    key={href}
+                    onClick={() => { window.open(href, "_blank"); setIsOpen(false); }}
+                    style={{
+                      width: 48, height: 48, borderRadius: "50%",
+                      background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+                      border: `1px solid ${dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
+                      color: dark ? "#fff" : "#000",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", outline: "none",
+                    }}
+                  >
+                    <div style={{ width: 22, height: 22, display: "flex" }}><Icon /></div>
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ display: "flex", gap: 20, alignItems: "center", marginTop: 10 }}>
+                <button
+                  onClick={() => { setDark(!dark); setIsOpen(false); }}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 8, padding: "10px 20px",
+                    borderRadius: 30, cursor: "pointer", outline: "none",
+                    background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+                    border: `1px solid ${dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
+                    color: dark ? "#fff" : "#000",
+                    fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 600
+                  }}
+                >
+                  <div style={{ width: 18, height: 18, display: "flex" }}>
+                    {dark ? <IcoSun /> : <IcoMoon />}
+                  </div>
+                  {dark ? "Light Mode" : "Dark Mode"}
+                </button>
+
+                <LangBtn dark={dark} isAr={isAr} toggleLang={() => { toggleLang(); setIsOpen(false); }} />
+              </div>
+
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </>
+    );
+  }
 
   return (
     <>

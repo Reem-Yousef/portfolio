@@ -105,16 +105,17 @@ body.light input, body.light textarea { color-scheme: light; }
   position: relative;
   display: inline-block;
   overflow: visible;
-  padding-right: 0.1em;
+  padding-right: clamp(0.02em, 0.05em, 0.08em);
 }
 
 .stripe-text::after {
   content: attr(data-text);
   position: absolute;
-  top: 0.06em;
-  left: 0.06em;
+  top: clamp(0.01em, 0.03em, 0.04em);
+  left: clamp(0.01em, 0.03em, 0.04em);
   z-index: -1;
-  width: 500px;
+  width: 100%;
+  white-space: nowrap;
   background: repeating-linear-gradient(
     35deg,
     rgb(255, 255, 255) 0px,
@@ -134,17 +135,18 @@ body.light input, body.light textarea { color-scheme: light; }
   position: relative;
   display: inline-block;
   overflow: visible;
-  padding-left: 0.1em;
+  padding-left: clamp(0.02em, 0.05em, 0.08em);
 }
 
 .stripe-text-ar::after {
   content: attr(data-text);
   position: absolute;
-  top: 0.06em;
-  right: 0.06em;
+  top: clamp(0.01em, 0.03em, 0.04em);
+  right: clamp(0.01em, 0.03em, 0.04em);
   left: auto;
   z-index: -1;
   width: 100%;
+  white-space: nowrap;
   background: repeating-linear-gradient(
     35deg,
     rgb(255, 255, 255) 0px,
@@ -164,6 +166,13 @@ body.light input, body.light textarea { color-scheme: light; }
 
 .hero-right > div > div {
   overflow: visible !important;
+}
+
+/* Mobile responsive: Hide hero-right (robot) on small screens as backup to JS logic */
+@media (max-width: 767px) {
+  .hero-right {
+    display: none !important;
+  }
 }
 
 /* ── Light mode ── */

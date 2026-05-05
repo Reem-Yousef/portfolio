@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next"; // ← جديد
 import "./index.css";
 import { Particles }      from "./components/ui/Particles";
-import { TopNav }         from "./components/BottomNav";
+import { BottomNav }     from "./components/BottomNav";
 import { Hero }           from "./components/Hero";
 import { About }          from "./components/About";
 import { Skills }         from "./components/Skills";
@@ -50,12 +50,12 @@ export default function App() {
   return (
     <>
       <Particles count={450} minSize={0.3} maxSize={1.2} minOpacity={0.03} maxOpacity={0.6} color="#ffffff" />
-      <TopNav
+      <BottomNav
         active={active}
         dark={dark}
         setDark={setDark}
-        isAr={isAr}           // ← جديد
-        toggleLang={toggleLang} // ← جديد
+        isAr={isAr}
+        toggleLang={toggleLang}
       />
       <main style={{ position: "relative", zIndex: 1 }}>
         <Hero dark={dark} />

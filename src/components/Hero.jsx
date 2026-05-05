@@ -7,8 +7,12 @@ export function Hero({ dark }) {
   const isAr = i18n.language === "ar";
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isTablet, setIsTablet] = useState(window.innerWidth < 1024);
   useEffect(() => {
-    const h = () => setIsMobile(window.innerWidth < 768);
+    const h = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth < 1024);
+    };
     window.addEventListener("resize", h);
     return () => window.removeEventListener("resize", h);
   }, []);
@@ -58,10 +62,10 @@ export function Hero({ dark }) {
 
   return (
     <section id="hero" style={{
-      minHeight: "100vh",
+      minHeight: isMobile ? "auto" : "100vh",
       display: "flex",
       alignItems: "center",
-      padding: isMobile ? "80px 6vw 60px" : "0 6vw",
+      padding: isMobile ? "120px 6vw 60px" : "0 6vw",
       position: "relative",
       zIndex: 1,
       // نفس الـ layout الأصلي — مفيش RTL
@@ -97,10 +101,12 @@ export function Hero({ dark }) {
             fontFamily: isAr ? "'Cairo', sans-serif" : "'Syne', sans-serif",
             fontWeight: 700,
             fontSize: isMobile ? "clamp(64px, 18vw, 96px)" : "clamp(52px, 6vw, 96px)",
-            lineHeight: 1,
-            letterSpacing: isAr ? 2 : -1,
+            lineHeight: 1.05,
+            letterSpacing: isAr ? 0 : -1,
             fontStyle: isAr ? "normal" : "italic",
             margin: "0 0 24px",
+            position: "relative",
+            zIndex: 2,
           }}
         >{displayName}</h1>
 
@@ -154,20 +160,27 @@ export function Hero({ dark }) {
       </div>
 
       {/* الروبوت — على اليمين دايماً زي الأصل */}
-      {!isMobile && (
+      {(!isMobile) && (
         <div className="hero-right" style={{
           flex: 1,
           display: "flex", alignItems: "center", justifyContent: "center",
           position: "relative",
           animation: "fadeUp 0.8s ease 0.2s both",
-          height: 700,
+        height: isTablet ? 550 : 700,
           clipPath: "inset(0)",
-          marginRight: -50,
-          marginTop: -150,
+          marginRight: isTablet ? -20 : -50,
+          marginTop: isTablet ? -100 : -150,
         }}>
           <Spline
             scene="https://prod.spline.design/iQsnxnlUYueAAwUZ/scene.splinecode"
-            style={{ width: "100%", height: "100%", transform: "scale(1.4) translateY(10%)", transformOrigin: "center center" }}
+            style={{ 
+              width: "100%", 
+              height: "100%", 
+              transform: isTablet 
+                ? "scale(1.1) translateY(10%)" 
+                : "scale(1.4) translateY(10%)", 
+              transformOrigin: "center center" 
+            }}
           />
         </div>
       )}

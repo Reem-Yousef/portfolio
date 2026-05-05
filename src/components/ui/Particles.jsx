@@ -18,8 +18,8 @@ export function Particles({
       y: Math.random(),
       size: Math.random() * (maxSize - minSize) + minSize,
       opacity: Math.random() * (maxOpacity - minOpacity) + minOpacity,
-      speed: 0.0042 + Math.random() * 0.0006 , // سرعة السقوط — بطيء جداً زي التلج
-      drift: (Math.random() - 0.5) * 0.002,  // انجراف خفيف يمين/شمال
+      speed: 2 + Math.random() * 1, // سرعة بالبيكسل لكل فريم (على أساس 60 إطار)
+      drift: (Math.random() - 0.5) * 1,  // انجراف بالبيكسل
     }));
   }, [count, minOpacity, maxOpacity, minSize, maxSize]);
 
@@ -48,16 +48,24 @@ export function Particles({
     resize();
     window.addEventListener("resize", resize);
 
-    const draw = () => {
+    let lastTime = performance.now();
+
+    const draw = (time) => {
+      if (!time) time = performance.now();
+      const dt = time - lastTime;
+      lastTime = time;
+      // Normalizing delta to 60fps (1 frame = ~16.6ms) to keep speed constant
+      const delta = Math.min(dt, 50) / 16.666;
+
       const W = window.innerWidth;
       const H = window.innerHeight;
 
       ctx.clearRect(0, 0, W, H);
 
       starsRef.current.forEach((s) => {
-        // تحريك النجمة لأسفل
-        s.y += s.speed;
-        s.x += s.drift;
+        // تحريك النجمة بناءً على البيكسل والوقت
+        s.y += (s.speed * delta) / H;
+        s.x += (s.drift * delta) / W;
 
         // لو وصلت الأسفل تروح الأعلى
         if (s.y > 1) { s.y = 0; s.x = Math.random(); }
@@ -75,7 +83,7 @@ export function Particles({
 
       rafRef.current = requestAnimationFrame(draw);
     };
-    draw();
+    rafRef.current = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(rafRef.current);

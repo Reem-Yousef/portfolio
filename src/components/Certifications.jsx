@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useInView } from "../hooks/useInView";
+import { useTranslation } from "react-i18next";
 import { CERTS } from "../data/data";
 
 const durationColor = (d) => d.includes("1") ? "#facc15" : "#4ade80";
 
-function ImgPlaceholder({ cert, dark }) {
+function ImgPlaceholder({ cert, dark, isAr }) {
   return (
     <div style={{
       width: "100%", height: "100%",
@@ -20,19 +21,28 @@ function ImgPlaceholder({ cert, dark }) {
         dangerouslySetInnerHTML={{ __html: cert.icon.replace(/strokeWidth="1\.8"/, 'strokeWidth="1.4"') }}
       />
       <span style={{
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: isAr ? "'Cairo', sans-serif" : "'DM Sans', sans-serif",
         fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
         color: cert.color, opacity: 0.55, textTransform: "uppercase",
       }}>
-        Certificate
+        {isAr ? "شهادة" : "Certificate"}
       </span>
     </div>
   );
 }
 
 function CertCard({ cert, index, visible, dark, isMobile }) {
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === "ar";
+  const font = isAr ? "'Cairo', sans-serif" : "'DM Sans', sans-serif";
+
   const [hov, setHov] = useState(false);
   const hasLink = !cert.link.includes("YOUR_");
+
+  // ترجمة العنوان والـ issuer والـ duration من i18n لو في id
+  const certTitle    = cert.id ? t(`certifications.items.${cert.id}.title`,    { defaultValue: cert.title    }) : cert.title;
+  const certIssuer   = cert.id ? t(`certifications.items.${cert.id}.issuer`,   { defaultValue: cert.issuer   }) : cert.issuer;
+  const certDuration = cert.id ? t(`certifications.items.${cert.id}.duration`, { defaultValue: cert.duration }) : cert.duration;
 
   const cardBg  = dark
     ? hov ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.025)"
@@ -60,12 +70,15 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
         transform: visible ? "translateY(0)" : "translateY(28px)",
         transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s, background 0.25s ease, border 0.25s ease`,
         minHeight: isMobile ? "auto" : 160,
+        direction: isAr ? "rtl" : "ltr",
       }}
     >
       {/* Glow */}
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
-        background: hov ? `radial-gradient(ellipse at left, ${cert.color}0e 0%, transparent 60%)` : "none",
+        background: hov
+          ? `radial-gradient(ellipse at ${isAr ? "right" : "left"}, ${cert.color}0e 0%, transparent 60%)`
+          : "none",
         transition: "background 0.35s ease", zIndex: 0,
       }} />
 
@@ -77,12 +90,15 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
         flexShrink: 0,
         position: "relative",
         overflow: "hidden",
-        borderRight: !isMobile ? `1px solid ${divColor}` : undefined,
+        borderRight: (!isMobile && !isAr) ? `1px solid ${divColor}` : undefined,
+        borderLeft:  (!isMobile &&  isAr) ? `1px solid ${divColor}` : undefined,
         borderBottom: isMobile ? `1px solid ${divColor}` : undefined,
       }}>
+        {/* Accent strip — يمين في عربي، شمال في إنجليزي */}
         <div style={{
           position: "absolute",
-          left: 0, top: 0,
+          [isAr ? "right" : "left"]: 0,
+          top: 0,
           [isMobile ? "right" : "bottom"]: 0,
           [isMobile ? "height" : "width"]: 3,
           background: cert.color, zIndex: 2,
@@ -91,8 +107,7 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
         {cert.img ? (
           <>
             <img
-              src={cert.img}
-              alt={cert.title}
+              src={cert.img} alt={certTitle}
               style={{
                 width: "100%", height: "100%",
                 objectFit: "cover", display: "block",
@@ -110,12 +125,14 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
               position: "absolute", inset: 0, zIndex: 1,
               background: isMobile
                 ? "linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.55) 100%)"
-                : "linear-gradient(to right, transparent 55%, rgba(0,0,0,0.55) 100%)",
+                : isAr
+                  ? "linear-gradient(to left, transparent 55%, rgba(0,0,0,0.55) 100%)"
+                  : "linear-gradient(to right, transparent 55%, rgba(0,0,0,0.55) 100%)",
               pointerEvents: "none",
             }} />
           </>
         ) : (
-          <ImgPlaceholder cert={cert} dark={dark} />
+          <ImgPlaceholder cert={cert} dark={dark} isAr={isAr} />
         )}
       </div>
 
@@ -145,17 +162,18 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
 
           <div style={{ flex: 1 }}>
             <h3 style={{
-              fontFamily: "'Syne', sans-serif", fontWeight: 700,
+              fontFamily: isAr ? "'Cairo', sans-serif" : "'Syne', sans-serif",
+              fontWeight: 700,
               fontSize: isMobile ? 15 : 17, color: titleColor,
               margin: "0 0 4px", lineHeight: 1.2,
             }}>
-              {cert.title}
+              {certTitle}
             </h3>
             <span style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: font,
               fontSize: 13, color: subColor, fontWeight: 500,
             }}>
-              {cert.issuer}
+              {certIssuer}
             </span>
           </div>
 
@@ -165,11 +183,11 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
             background: dark ? `${durationColor(cert.duration)}15` : `${durationColor(cert.duration)}35`,
             border: `1px solid ${durationColor(cert.duration)}90`,
             borderRadius: 100, padding: "4px 12px",
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: font,
             fontSize: 12, fontWeight: 700,
             color: durationColor(cert.duration), whiteSpace: "nowrap",
           }}>
-            {cert.duration}
+            {certDuration}
           </div>
         </div>
 
@@ -184,7 +202,7 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
             rel="noreferrer"
             style={{
               display: "inline-flex", alignItems: "center", gap: 8,
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: font,
               fontSize: 13, fontWeight: 600,
               color: hasLink ? cert.color : subColor,
               textDecoration: "none",
@@ -199,14 +217,14 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
           >
             {hasLink ? (
               <>
-                View Credential
+                {t("certifications.viewCredential")}
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                   <polyline points="15 3 21 3 21 9"/>
                   <line x1="10" y1="14" x2="21" y2="3"/>
                 </svg>
               </>
-            ) : "Link coming soon"}
+            ) : t("certifications.comingSoon")}
           </a>
         </div>
       </div>
@@ -216,8 +234,10 @@ function CertCard({ cert, index, visible, dark, isMobile }) {
 
 export function Certifications({ dark }) {
   const [ref, visible] = useInView();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === "ar";
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", check);
@@ -239,19 +259,22 @@ export function Certifications({ dark }) {
           opacity: visible ? 1 : 0,
           transform: visible ? "none" : "translateY(30px)",
           transition: "all 0.6s ease",
+          direction: isAr ? "rtl" : "ltr",
         }}>
           <h2 style={{
-            fontFamily: "'Syne', sans-serif", fontWeight: 700,
+            fontFamily: isAr ? "'Cairo', sans-serif" : "'Syne', sans-serif",
+            fontWeight: 700,
             fontSize: "clamp(32px, 5vw, 52px)", color: titleColor,
-            letterSpacing: -1.5, margin: "0 0 16px",
+            letterSpacing: isAr ? 0 : -1.5, margin: "0 0 16px",
           }}>
-            Certifications
+            {t("certifications.title")}
           </h2>
           <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontSize: 16,
-            color: subColor, maxWidth: 480, margin: "0 auto",
+            fontFamily: isAr ? "'Cairo', sans-serif" : "'DM Sans', sans-serif",
+            fontSize: 16, color: subColor,
+            maxWidth: 480, margin: "0 auto",
           }}>
-            Professional credentials earned through structured programs and hands-on training.
+            {t("certifications.subtitle")}
           </p>
         </div>
 
