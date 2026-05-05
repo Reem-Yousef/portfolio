@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { SOCIALS } from "../data/data";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 
@@ -17,12 +18,12 @@ const IcoMoon    = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentCol
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { id: "hero",           Icon: IcoHome,   label: "Home" },
-  { id: "about",          Icon: IcoUser,   label: "About" },
-  { id: "skills",         Icon: IcoWrench, label: "Skills" },
-  { id: "projects",       Icon: IcoFolder, label: "Projects" },
-  { id: "certifications", Icon: IcoAward,  label: "Certifications" },
-  { id: "contact",        Icon: IcoMail,   label: "Contact" },
+  { id: "hero",           Icon: IcoHome,   labelKey: "nav.home" },
+  { id: "about",          Icon: IcoUser,   labelKey: "nav.about" },
+  { id: "skills",         Icon: IcoWrench, labelKey: "nav.skills" },
+  { id: "projects",       Icon: IcoFolder, labelKey: "nav.projects" },
+  { id: "certifications", Icon: IcoAward,  labelKey: "nav.certifications" },
+  { id: "contact",        Icon: IcoMail,   labelKey: "nav.contact" },
 ];
 
 const SOCIAL_ITEMS = [
@@ -31,113 +32,81 @@ const SOCIAL_ITEMS = [
   { href: SOCIALS.behance,  Icon: IcoBehance,  label: "Behance" },
 ];
 
-// ─── Single dock button ───────────────────────────────────────────────────────
+// ─── DockBtn ──────────────────────────────────────────────────────────────────
 function DockBtn({ Icon, label, onClick, active, dark, mouseX }) {
   const [hov, setHov] = useState(false);
   const ref = useRef(null);
 
-  const fg      = dark ? "#ffffff" : "#111111";
-  const fgMuted = dark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.36)";
+  const fg       = dark ? "#ffffff" : "#111111";
+  const fgMuted  = dark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.36)";
   const activeBg = dark ? "rgba(255,255,255,0.13)" : "rgba(0,0,0,0.10)";
   const hovBg    = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
   const tipBg    = dark ? "rgba(12,12,18,0.97)"    : "rgba(248,248,253,0.98)";
   const tipBdr   = dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)";
 
-  // Framer motion dock logic
-  const defaultMouseX = useMotionValue(Infinity);
-  const currentMouseX = mouseX ?? defaultMouseX;
+  const defaultMouseX  = useMotionValue(Infinity);
+  const currentMouseX  = mouseX ?? defaultMouseX;
 
   const distanceCalc = useTransform(currentMouseX, (val) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  const baseSize = 36;
+  const baseSize   = 36;
   const targetSize = 52;
-  const distance = 135;
+  const distance   = 135;
 
-  const sizeTransform = useTransform(
-    distanceCalc,
-    [-distance, 0, distance],
-    [baseSize, targetSize, baseSize]
-  );
-
-  const scaleSize = useSpring(sizeTransform, {
-    mass: 0.05,
-    stiffness: 450,
-    damping: 15,
-  });
-
-  const iconScale = useTransform(scaleSize, [baseSize, targetSize], [1, 1.5]);
+  const sizeTransform = useTransform(distanceCalc, [-distance, 0, distance], [baseSize, targetSize, baseSize]);
+  const scaleSize     = useSpring(sizeTransform, { mass: 0.05, stiffness: 450, damping: 15 });
+  const iconScale     = useTransform(scaleSize, [baseSize, targetSize], [1, 1.5]);
 
   return (
     <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-
-      {/* Tooltip — always above the icon */}
       {hov && (
         <div style={{
-          position:    "absolute",
-          bottom:      "calc(100% + 12px)",
-          left:        "50%",
-          transform:   "translateX(-50%)",
-          background:  tipBg,
-          border:      `1px solid ${tipBdr}`,
-          borderRadius: 8,
-          padding:     "4px 10px",
-          fontSize:    11,
-          fontWeight:  600,
-          fontFamily:  "'DM Sans', sans-serif",
-          letterSpacing: "0.02em",
-          color:       fg,
-          whiteSpace:  "nowrap",
-          pointerEvents: "none",
-          zIndex:      30,
-          boxShadow:   dark ? "0 6px 18px rgba(0,0,0,0.5)" : "0 4px 12px rgba(0,0,0,0.12)",
-          animation:   "tipIn 0.12s cubic-bezier(.34,1.56,.64,1) both",
+          position: "absolute", bottom: "calc(100% + 12px)",
+          left: "50%", transform: "translateX(-50%)",
+          background: tipBg, border: `1px solid ${tipBdr}`,
+          borderRadius: 8, padding: "4px 10px",
+          fontSize: 11, fontWeight: 600,
+          fontFamily: "'DM Sans', sans-serif",
+          letterSpacing: "0.02em", color: fg,
+          whiteSpace: "nowrap", pointerEvents: "none", zIndex: 30,
+          boxShadow: dark ? "0 6px 18px rgba(0,0,0,0.5)" : "0 4px 12px rgba(0,0,0,0.12)",
+          animation: "tipIn 0.12s cubic-bezier(.34,1.56,.64,1) both",
         }}>
           {label}
           <span style={{
-            position:  "absolute", top: "100%", left: "50%",
+            position: "absolute", top: "100%", left: "50%",
             transform: "translateX(-50%)",
             width: 0, height: 0,
-            borderLeft:  "4px solid transparent",
+            borderLeft: "4px solid transparent",
             borderRight: "4px solid transparent",
-            borderTop:   `4px solid ${tipBg}`,
+            borderTop: `4px solid ${tipBg}`,
           }} />
         </div>
       )}
 
-      {/* Button — sizes via framer-motion */}
       <motion.button
         ref={ref}
         onMouseEnter={() => setHov(true)}
         onMouseLeave={() => setHov(false)}
         onClick={onClick}
         style={{
-          width:   scaleSize,
-          height:  scaleSize,
-          flexShrink: 0,
-          borderRadius: "50%",
-          border:  "none",
-          outline: "none",
-          cursor:  "pointer",
-          display: "flex",
-          alignItems:     "center",
-          justifyContent: "center",
+          width: scaleSize, height: scaleSize,
+          flexShrink: 0, borderRadius: "50%",
+          border: "none", outline: "none", cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
           background: active ? activeBg : hov ? hovBg : "transparent",
-          color:      active || hov ? fg : fgMuted,
+          color: active || hov ? fg : fgMuted,
           transition: "background 0.18s ease, color 0.18s ease",
-          zIndex:     hov ? 2 : 1,
-          position:   "relative",
+          zIndex: hov ? 2 : 1, position: "relative",
         }}
       >
-        <motion.span style={{ 
-          width: 17, 
-          height: 17, 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "center",
-          scale: iconScale
+        <motion.span style={{
+          width: 17, height: 17,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          scale: iconScale,
         }}>
           <Icon />
         </motion.span>
@@ -146,22 +115,76 @@ function DockBtn({ Icon, label, onClick, active, dark, mouseX }) {
   );
 }
 
+// ─── زر اللغة ─────────────────────────────────────────────────────────────────
+function LangBtn({ dark, isAr, toggleLang }) {
+  const [hov, setHov] = useState(false);
+  const fg     = dark ? "#fff" : "#111";
+  const hovBg  = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+  const tipBg  = dark ? "rgba(12,12,18,0.97)"    : "rgba(248,248,253,0.98)";
+  const tipBdr = dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)";
+
+  return (
+    <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {hov && (
+        <div style={{
+          position: "absolute", bottom: "calc(100% + 12px)",
+          left: "50%", transform: "translateX(-50%)",
+          background: tipBg, border: `1px solid ${tipBdr}`,
+          borderRadius: 8, padding: "4px 10px",
+          fontSize: 11, fontWeight: 600,
+          fontFamily: "'DM Sans', sans-serif",
+          color: fg, whiteSpace: "nowrap",
+          pointerEvents: "none", zIndex: 30,
+          animation: "tipIn 0.12s cubic-bezier(.34,1.56,.64,1) both",
+        }}>
+          {isAr ? "Switch to English" : "تغيير للعربية"}
+          <span style={{
+            position: "absolute", top: "100%", left: "50%",
+            transform: "translateX(-50%)",
+            width: 0, height: 0,
+            borderLeft: "4px solid transparent",
+            borderRight: "4px solid transparent",
+            borderTop: `4px solid ${tipBg}`,
+          }} />
+        </div>
+      )}
+
+      <button
+        onClick={toggleLang}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          width: 36, height: 36, borderRadius: "50%",
+          background: hov ? hovBg : "transparent",
+          border: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"}`,
+          color: fg, cursor: "pointer",
+          fontFamily: isAr ? "'DM Mono', monospace" : "'Cairo', sans-serif",
+          fontSize: isAr ? 11 : 14,
+          fontWeight: 700,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          transition: "background 0.18s ease",
+          flexShrink: 0,
+        }}
+      >
+        {isAr ? "EN" : "ع"}
+      </button>
+    </div>
+  );
+}
+
 // ─── Separator ────────────────────────────────────────────────────────────────
 function Sep({ dark }) {
   return (
     <div style={{
-      width:      1,
-      height:     24,
-      background: dark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.2)",
-      flexShrink: 0,
-      alignSelf:  "center",
-      margin:     "0 4px",
+      width: 1, height: 24, flexShrink: 0, alignSelf: "center", margin: "0 4px",
+      background: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.2)",
     }} />
   );
 }
 
 // ─── TopNav ───────────────────────────────────────────────────────────────────
-export function TopNav({ active, dark, setDark }) {
+export function TopNav({ active, dark, setDark, isAr, toggleLang }) {
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [anyHov,   setAnyHov]   = useState(false);
   const mouseX = useMotionValue(Infinity);
@@ -177,11 +200,11 @@ export function TopNav({ active, dark, setDark }) {
 
   const glass = {
     background: dark
-      ? scrolled ? "rgba(10, 10, 16, 0.35)" : "rgba(10, 10, 16, 0.34)"
-      : scrolled ? "rgba(238,238,246,0.90)" : "rgba(238,238,246,0.68)",
+      ? "rgba(10, 10, 16, 0.34)"
+      : "rgba(255, 255, 255, 0.05)",
     backdropFilter:       "blur(24px) saturate(180%)",
     WebkitBackdropFilter: "blur(24px) saturate(180%)",
-    border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.09)"}`,
+    border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.5)"}`,
     borderRadius: 15,
     boxShadow: dark
       ? "0 8px 36px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)"
@@ -194,51 +217,60 @@ export function TopNav({ active, dark, setDark }) {
       <style>{`
         @keyframes tipIn {
           from { opacity: 0; transform: translateX(-50%) translateY(5px) scale(0.92); }
-          to   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
         }
       `}</style>
 
       <motion.nav
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseEnter={() => setAnyHov(true)}
-        onMouseLeave={() => {
-          setAnyHov(false);
-          mouseX.set(Infinity);
-        }}
+        onMouseLeave={() => { setAnyHov(false); mouseX.set(Infinity); }}
         style={{
-          position:  "fixed",
-          top:       36,
-          left:      "50%",
-          transform: "translateX(-50%)",
-          zIndex:    1000,
-          display:   "flex",
-          alignItems: "center",
-          height:    58, // Fixed height to prevent vertical stretching
+          position: "fixed", top: 36,
+          left: "50%", transform: "translateX(-50%)",
+          zIndex: 1000,
+          display: "flex", alignItems: "center",
+          height: 58,
           gap:     anyHov ? 18 : 10,
           padding: anyHov ? "0 20px" : "0 12px",
           ...glass,
         }}
       >
-        {NAV_ITEMS.map(({ id, Icon, label }) => (
-          <DockBtn key={id} Icon={Icon} label={label} onClick={() => scrollTo(id)} active={active === id} dark={dark} mouseX={mouseX} />
+        {/* Nav items — النصوص بتترجم تلقائياً */}
+        {NAV_ITEMS.map(({ id, Icon, labelKey }) => (
+          <DockBtn
+            key={id} Icon={Icon}
+            label={t(labelKey)}
+            onClick={() => scrollTo(id)}
+            active={active === id}
+            dark={dark}
+            mouseX={mouseX}
+          />
         ))}
 
         <Sep dark={dark} />
 
         {SOCIAL_ITEMS.map(({ href, Icon, label }) => (
-          <DockBtn key={href} Icon={Icon} label={label} onClick={() => window.open(href, "_blank")} active={false} dark={dark} mouseX={mouseX} />
+          <DockBtn
+            key={href} Icon={Icon} label={label}
+            onClick={() => window.open(href, "_blank")}
+            active={false} dark={dark} mouseX={mouseX}
+          />
         ))}
 
         <Sep dark={dark} />
 
+        {/* Dark/Light toggle */}
         <DockBtn
           Icon={dark ? IcoSun : IcoMoon}
           label={dark ? "Light mode" : "Dark mode"}
           onClick={() => setDark(!dark)}
-          active={false}
-          dark={dark}
-          mouseX={mouseX}
+          active={false} dark={dark} mouseX={mouseX}
         />
+
+        {/* Language toggle ← الجديد */}
+        <LangBtn dark={dark} isAr={isAr} toggleLang={toggleLang} />
+
       </motion.nav>
     </>
   );

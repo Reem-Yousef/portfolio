@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useInView } from "../hooks/useInView";
 import Spline from '@splinetool/react-spline';
 
-export function Contact() {
+export function Contact({ dark }) {
   const [ref, visible] = useInView();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState(null);
@@ -38,13 +38,13 @@ const handleSubmit = async () => {
 };
 
   const inputStyle = {
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgb(255, 255, 255)",
+    background: dark ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.4)",
+    border: dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(255,255,255,0.6)",
     borderRadius: 12,
     padding: "14px 18px",
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 15,
-    color: "#fff",
+    color: dark ? "#fff" : "#000000",
     outline: "none",
     width: "100%",
     boxSizing: "border-box",
@@ -59,28 +59,30 @@ const handleSubmit = async () => {
       overflow: "hidden",
     }}>
        {/* Spline background */}
-     <div style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: 0,
-      opacity: 0.45,
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      overflow: "hidden",
-    }}>
-      <div>
-        <Spline
-          scene="https://prod.spline.design/hxQoVgVovnaEGttk/scene.splinecode"
-          style={{ width: "100%", height: "100%",transform: "scale(0.45)",
-                  transformOrigin: "center center", }}
-        />
+     {dark && (
+       <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 0,
+        opacity: 0.45,
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}>
+        <div>
+          <Spline
+            scene="https://prod.spline.design/hxQoVgVovnaEGttk/scene.splinecode"
+            style={{ width: "100%", height: "100%",transform: "scale(0.45)",
+                    transformOrigin: "center center", }}
+          />
+        </div>
       </div>
-    </div>
+     )}
 
       <div ref={ref} style={{
         maxWidth: 580, margin: "0 auto",
@@ -91,14 +93,14 @@ const handleSubmit = async () => {
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <h2 style={{
             fontFamily: "'Syne', sans-serif", fontWeight: 700,
-            fontSize: "clamp(32px, 5vw, 52px)", color: "#fff",
+            fontSize: "clamp(32px, 5vw, 52px)", color: dark ? "#fff" : "#000000",
             letterSpacing: -1.5, margin: "0 0 16px",
           }}>
-            Get in <span style={{ color: "rgba(255, 255, 255, 0.33)" }}>Touch</span>
+            Get in <span style={{ color: dark ? "rgba(255, 255, 255, 0.33)" : "rgba(0, 0, 0, 0.5)" }}>Touch</span>
           </h2>
           <p style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: 16,
-            color: "rgba(255, 255, 255, 0.53)",
+            color: dark ? "rgba(255, 255, 255, 0.53)" : "rgba(0, 0, 0, 0.7)",
           }}>
             Have a project in mind? I respond within 24 hours.
           </p>
@@ -113,9 +115,11 @@ const handleSubmit = async () => {
               key={f} type={t} placeholder={ph}
               value={form[f]}
               onChange={e => setForm({ ...form, [f]: e.target.value })}
-              style={inputStyle}
-              onFocus={e => e.target.style.borderColor = "rgba(34,211,238,0.4)"}
-              onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.08)"}
+              style={{ ...inputStyle,
+                color: dark ? "#fff" : "#000000",
+              }}
+              onFocus={e => e.target.style.borderColor = "rgba(232,121,249,0.8)"}
+              onBlur={e => e.target.style.borderColor = dark ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.6)"}
             />
           ))}
         </div>
@@ -125,9 +129,9 @@ const handleSubmit = async () => {
           value={form.message}
           onChange={e => setForm({ ...form, message: e.target.value })}
           rows={5}
-          style={{ ...inputStyle, resize: "vertical", marginBottom: 14 }}
-          onFocus={e => e.target.style.borderColor = "rgba(34,211,238,0.4)"}
-          onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.08)"}
+          style={{ ...inputStyle, resize: "vertical", marginBottom: 14, color: dark ? "#fff" : "#000000" }}
+          onFocus={e => e.target.style.borderColor = "rgba(232,121,249,0.8)"}
+          onBlur={e => e.target.style.borderColor = dark ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.6)"}
         />
 
         {status && (
@@ -146,7 +150,7 @@ const handleSubmit = async () => {
           onClick={handleSubmit}
           disabled={loading}
           style={{
-            width: "100%", background: "#fff", color: "#000",
+            width: "100%", background: dark ? "#fff" : "#000000", color: dark ? "#000" : "#fff",
             border: "none", borderRadius: 12, padding: "16px",
             fontFamily: "'DM Sans', sans-serif", fontWeight: 700,
             fontSize: 15, cursor: loading ? "not-allowed" : "pointer",

@@ -1,4 +1,8 @@
 import spaceExamImg from "/space-exam.png";
+import EcommercePlants from "/E-commerce.png";
+import fretStore from "/3fretStore.png";
+import tmkun from "/tmkun.png";
+import Dentia from "/DentalClinic.png";
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
 export const SKILLS_DATA = {
@@ -41,10 +45,11 @@ export const SKILL_ICONS = {
   MongoDB: "🍃", PostgreSQL: "🐘", Redis: "🔴",
   Git: "📝", GitHub: "🐙", Docker: "🐳", Postman: "📮",
 };
- 
+
 // ─── Projects ─────────────────────────────────────────────────────────────────
 export const PROJECTS = [
   {
+    id: "spaceExam",                                          // ← مضاف
     title: "Space Examination System",
     desc: "Interactive online exam platform with a space theme — features a countdown timer, question flagging, dynamic result pages, and localStorage-based routing. Built entirely with vanilla HTML, CSS, and ES6.",
     tags: ["HTML", "CSS", "ES6", "LocalStorage"],
@@ -55,30 +60,50 @@ export const PROJECTS = [
     status: null,
   },
   {
+    id: "plantsShop",                                         // ← مضاف
     title: "Plants E-Commerce",
     desc: "Full-stack plant shop with product listings, cart, checkout, and Stripe payment integration. Features a clean Angular frontend powered by a Node.js/Express backend.",
     tags: ["Angular", "Node.js", "Express", "Stripe"],
-    img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&q=80",
-    github: "https://github.com/Reem-Yousef/E-commerce-website",
-    demo: "#",
+    img: EcommercePlants,
+    github: [
+      "https://github.com/Reem-Yousef/E-commerce-front.git",
+      "https://github.com/Reem-Yousef/E-commerce-back.git",
+    ],
+    demo: "https://e-commerce-front-psi-ruby.vercel.app/",
     type: "dev",
     status: null,
   },
   {
+    id: "dental",                                             // ← مضاف
     title: "Dental Clinic Platform",
     desc: "Online dental clinic with patient-facing appointment booking and a full admin dashboard for managing schedules, patient records, and clinic operations.",
     tags: ["React", "Node.js", "Express", "MongoDB"],
-    img: "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=600&h=400&fit=crop&q=80",
+    img: Dentia,
     github: "#",
     demo: "#",
     type: "dev",
     status: null,
   },
   {
+    id: "coins",                                              // ← مضاف
+    title: "Coins Online Store",
+    desc: "TikTok currency converter platform with a full admin dashboard for managing conversion packages, pricing, and social media links.",
+    tags: ["React", "Node.js", "Express", "MongoDB"],
+    img: fretStore,
+    github: [
+      "https://github.com/Reem-Yousef/coinsStoreFrontend.git",
+      "https://github.com/Reem-Yousef/coinsStoreBackend.git",
+    ],
+    demo: "https://3fretstore.com/",
+    type: "dev",
+    status: null,
+  },
+  {
+    id: "tmkun",                                              // ← مضاف
     title: "Tmkun — UI/UX Design",
     desc: "End-to-end UI/UX design for an educational assessment platform. Covers user research, wireframes, component system, and high-fidelity prototypes.",
     tags: ["Figma", "UI/UX", "Design System", "Prototyping"],
-    img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=400&fit=crop&q=80",
+    img: tmkun,
     github: "#",
     demo: "https://tmkun.com/",
     behance: "https://www.behance.net/gallery/247576993/UIUX-Design-for-an-Educational-Platform/modules/1432095323",
@@ -86,6 +111,7 @@ export const PROJECTS = [
     status: null,
   },
   {
+    id: "socialMedia",                                        // ← مضاف
     title: "Social Media App",
     desc: "A social platform currently in development — focused on community interaction, real-time feeds, and a clean modern interface.",
     tags: ["React", "Node.js", "MongoDB"],
@@ -96,6 +122,7 @@ export const PROJECTS = [
     status: "in-progress",
   },
   {
+    id: "eduPlatform",                                        // ← مضاف
     title: "Educational Platform",
     desc: "A learning management system in progress — built for structured course delivery, progress tracking, and student–instructor interaction.",
     tags: ["React", "Node.js", "MongoDB"],
@@ -110,6 +137,7 @@ export const PROJECTS = [
 // ─── Certifications ───────────────────────────────────────────────────────────
 export const CERTS = [
   {
+    id: "uiux",                                               // ← مضاف
     title: "UI/UX Design",
     issuer: "ITI",
     duration: "1 Month",
@@ -119,6 +147,7 @@ export const CERTS = [
     link: "https://drive.google.com/file/d/1F0CPyBILWdKQG7dkTNS9AdCbi_JKN01s/view?usp=sharing",
   },
   {
+    id: "cs50",                                               // ← مضاف
     title: "CS50x",
     issuer: "Harvard / edX",
     duration: "1 Month",
@@ -128,6 +157,7 @@ export const CERTS = [
     link: "https://drive.google.com/file/d/1DFkzLHT13m2QeNUeLn-0LjdfpPbBj137/view?usp=sharing",
   },
   {
+    id: "software",                                           // ← مضاف
     title: "Software Fundamentals",
     issuer: "ITI",
     duration: "4 Months",
@@ -137,6 +167,7 @@ export const CERTS = [
     link: "https://drive.google.com/file/d/1AbPPfq6nIrs-hITJYvGDuSnry6HCkvOz/view?usp=sharing",
   },
   {
+    id: "mearn",                                              // ← مضاف
     title: "MEARN Full Stack",
     issuer: "ITI",
     duration: "4 Months",
@@ -149,25 +180,25 @@ export const CERTS = [
 
 // ─── About orbit items ────────────────────────────────────────────────────────
 export const ABOUT_ORBIT = [
-  { 
-    label: "Frontend", 
+  {
+    label: "Frontend",
     color: "#22d3ee",
-    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4"/><path d="M8 9l-2 2 2 2"/><path d="m16 9 2 2-2 2"/></svg>`
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4"/><path d="M8 9l-2 2 2 2"/><path d="m16 9 2 2-2 2"/></svg>`,
   },
-  { 
-    label: "Backend", 
+  {
+    label: "Backend",
     color: "#4ade80",
-    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="18" r="1" fill="currentColor"/></svg>`
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="18" r="1" fill="currentColor"/></svg>`,
   },
-  { 
-    label: "UI/UX", 
+  {
+    label: "UI/UX",
     color: "#e879f9",
-    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="13.5" cy="17.5" r="2.5"/><path d="M13.5 9v5.5"/><path d="M9 12h4.5"/></svg>`
+    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="13.5" cy="17.5" r="2.5"/><path d="M13.5 9v5.5"/><path d="M9 12h4.5"/></svg>`,
   },
-  { 
-    label: "Full Stack", 
+  {
+    label: "Full Stack",
     color: "#a78bfa",
-    svg: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>`
+    svg: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>`,
   },
 ];
 

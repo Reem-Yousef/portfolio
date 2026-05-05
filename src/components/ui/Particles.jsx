@@ -18,8 +18,8 @@ export function Particles({
       y: Math.random(),
       size: Math.random() * (maxSize - minSize) + minSize,
       opacity: Math.random() * (maxOpacity - minOpacity) + minOpacity,
-      speed: 0.0006 + Math.random() * 0.0004, // سرعة السقوط — بطيء جداً زي التلج
-      drift: (Math.random() - 0.5) * 0.0004,  // انجراف خفيف يمين/شمال
+      speed: 0.0042 + Math.random() * 0.0006 , // سرعة السقوط — بطيء جداً زي التلج
+      drift: (Math.random() - 0.5) * 0.002,  // انجراف خفيف يمين/شمال
     }));
   }, [count, minOpacity, maxOpacity, minSize, maxSize]);
 
